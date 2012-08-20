@@ -38,9 +38,18 @@ public class Picker extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picker);
         init();
+        
+        ah.addAlarm(new Alarm("test", 0,0,15000));
     }
+    
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		ah.dumpAlarms();
+    	super.onPause();
+	}
 
-    private void init() {
+	private void init() {
     	ah = new AlarmHandler(this);
     	
 		bSet = (Button) findViewById(R.id.bSet);
@@ -109,6 +118,7 @@ public class Picker extends Activity implements View.OnClickListener{
 				npSeconds.getValue()
 				);
 		ah.addAlarm(alarm);
+		ah.setAlarm(alarm);
 	}
 //	private void clickSet(){
 //		hoursIn = npHours.getValue();

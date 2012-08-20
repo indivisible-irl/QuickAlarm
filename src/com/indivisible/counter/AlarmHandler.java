@@ -17,6 +17,7 @@ import android.util.Log;
 
 public class AlarmHandler {
 
+	String FILE = "alarms.dat";
 	ArrayList<Alarm> alarms;
 	Date now;
 	Context context;
@@ -27,7 +28,6 @@ public class AlarmHandler {
 	
 	public AlarmHandler(Context context){
 		this.context = context;
-		alarms = new ArrayList<Alarm>();
 		getAlarms();						// any issues with this?
 	}
 	
@@ -39,6 +39,7 @@ public class AlarmHandler {
 	 */
 	public void addAlarm(Alarm alarm){
 		alarms.add(alarm);
+		Log.d("addAlarm", "added: " + alarm.title);
 	}
 	/**
 	 * Remove one alarm from the list
@@ -46,6 +47,7 @@ public class AlarmHandler {
 	 */
 	public void delAlarm(Alarm alarm){
 		alarms.remove(alarm);
+		Log.d("delAlarm", "added: " + alarm.title);
 	}
 	/**
 	 * Verify that an alarms due date hasn't passed
@@ -55,8 +57,10 @@ public class AlarmHandler {
 		for(int i=0; i<alarms.size(); i++){
 			if (alarms.get(i).when.after(now)){
 				alarms.get(i).active = true;
+				Log.d("verifyFuture", "active: " + alarms.get(i).title);
 			} else {
 				alarms.get(i).active = false;
+				Log.d("verifyFuture", "inactive: " + alarms.get(i).title);
 			}
 		}
 	}
@@ -77,20 +81,22 @@ public class AlarmHandler {
 	 */
 	public void setAlarm(Alarm alarm){
 		AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-		intent = new Intent(context, AlarmDisp.class);
+		intent = new Intent(context, AlarmReceiver.class);
 		pIntent = PendingIntent.getActivity(context, alarm.id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 	    am.set(AlarmManager.RTC_WAKEUP, alarm.set.getTime(), pIntent);
+	    Log.d("setAlarm", "set: " + alarm.title);
 	}
 	/**
 	 * Register all (active) alarms
 	 */
 	public void setAlarms(){
 		AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-		intent = new Intent(context, AlarmDisp.class);
+		intent = new Intent(context, AlarmReceiver.class);
 		for(Alarm alarm : alarms){
 			if (alarm.active){
 				pIntent = PendingIntent.getActivity(context, alarm.id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			    am.set(AlarmManager.RTC_WAKEUP, alarm.set.getTime(), pIntent);
+			    Log.d("setAlarm", "set: " + alarm.title);
 			}
 		}
 	}
@@ -100,16 +106,21 @@ public class AlarmHandler {
 	 */
 	public void cancelAlarm(Alarm alarm){
 		AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-		intent = new Intent(context, AlarmDisp.class);
+		intent = new Intent(context, AlarmReceiver.class);
 		pIntent = PendingIntent.getActivity(context, alarm.id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		am.cancel(pIntent);
+		try{
+			am.cancel(pIntent);
+		} catch (Exception ex) {
+			Log.e("MyAlarms", "AlarmManager update was not canceled. " + ex.toString());
+		}
+		Log.d("cancelAlarm", "disabled: " + alarm.title);
 	}
 	/**
 	 * Cancel all alarms
 	 */
 	public void cancelAllAlarms(){
 		AlarmManager am = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-		intent = new Intent(context, AlarmDisp.class);
+		intent = new Intent(context, AlarmReceiver.class);
 		for (Alarm alarm : alarms){
 			pIntent = PendingIntent.getActivity(context, alarm.id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			try{
@@ -126,11 +137,13 @@ public class AlarmHandler {
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
 		try {
-			fos = context.openFileOutput("Alarms", Context.MODE_PRIVATE);
+			fos = context.openFileOutput(FILE, Context.MODE_PRIVATE);
 			out = new ObjectOutputStream(fos);
 			out.writeObject(alarms);
 			out.close();
+			Log.d("dumpAlarms", "dumped");
 		} catch(IOException ex) {
+			Log.d("dumpAlarms", "not dumped");
 			ex.printStackTrace();
 		}
 	}
@@ -142,12 +155,17 @@ public class AlarmHandler {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
-			fis = context.openFileInput("Alarms");
+			fis = context.openFileInput(FILE);
 			ois = new ObjectInputStream(fis);
 			alarms = (ArrayList<Alarm>) ois.readObject();
+			Log.d("getAlarms", "got");
 		} catch (IOException exi) {
+			alarms = new ArrayList<Alarm>();
+			Log.d("getAlarms", "not got");
 			exi.printStackTrace();
 		} catch (ClassNotFoundException exc) {
+			alarms = new ArrayList<Alarm>();
+			Log.d("getAlarms", "not got");
 			exc.printStackTrace();
 		}
 	}
