@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tvPick"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:gravity="center_horizontal"
+        android:text="@string/pick_time"
+        android:textSize="22dp"
+        tools:context=".Picker" />
+
+    <NumberPicker
+        android:id="@+id/npMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <NumberPicker
+        android:id="@+id/npSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/npMinutes"
+        android:layout_toRightOf="@+id/npMinutes" />
+
+    <NumberPicker
+        android:id="@+id/npHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/npMinutes"
+        android:layout_toLeftOf="@+id/npMinutes" />
+
+    <TextView
+        android:id="@+id/tvHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/npHours"
+        android:layout_alignRight="@+id/npHours"
+        android:layout_below="@+id/npHours"
+        android:gravity="center_horizontal"
+        android:text="@string/hours" />
+
+    <TextView
+        android:id="@+id/tvMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvHours"
+        android:layout_alignBottom="@+id/tvHours"
+        android:layout_alignLeft="@+id/npMinutes"
+        android:layout_toLeftOf="@+id/npSeconds"
+        android:gravity="center_horizontal"
+        android:text="@string/minutes" />
+
+    <TextView
+        android:id="@+id/tvSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvMinutes"
+        android:layout_alignBottom="@+id/tvMinutes"
+        android:layout_alignLeft="@+id/npSeconds"
+        android:layout_alignRight="@+id/npSeconds"
+        android:gravity="center_horizontal"
+        android:text="@string/seconds" />
+
+    <EditText
+        android:id="@+id/etTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHours"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:ems="10"
+        android:hint="@string/hint_title"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etTitle"
+        android:layout_alignRight="@+id/etTitle"
+        android:layout_below="@+id/etTitle"
+        android:gravity="center_horizontal"
+        android:text="@string/pick_title" />
+
+    <Button
+        android:id="@+id/bSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/tvMinutes"
+        android:text="@string/b_set" />
+
+    <Button
+        android:id="@+id/bCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvSeconds"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/b_cancel" />
+
+</RelativeLayout>
