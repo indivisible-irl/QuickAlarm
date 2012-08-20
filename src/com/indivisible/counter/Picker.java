@@ -1,6 +1,6 @@
 package com.indivisible.counter;
 
-import java.util.Date;
+//import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,9 +25,9 @@ public class Picker extends Activity implements View.OnClickListener{
 	EditText etTitle;
 	NumberPicker npHours, npMinutes, npSeconds;
 	
-	int hoursIn, minutesIn, secondsIn, alarmID;
-	Date now, then;
-	long addMilliseconds;
+	//int hoursIn, minutesIn, secondsIn, alarmID;
+	//Date now, then;
+	//long addMilliseconds;
 	AlarmHandler ah;
 	
 	//////////////////////////////////////////////////////////////////////
@@ -38,8 +38,7 @@ public class Picker extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picker);
         init();
-        
-        ah.addAlarm(new Alarm("test", 0,0,15000));
+        //ah.addAlarm(new Alarm("test", 0,0,15000));
     }
     
     @Override
@@ -117,8 +116,9 @@ public class Picker extends Activity implements View.OnClickListener{
 				npMinutes.getValue(),
 				npSeconds.getValue()
 				);
+		ah.cancelAllAlarms();
 		ah.addAlarm(alarm);
-		ah.setAlarm(alarm);
+		ah.setAlarms();
 	}
 //	private void clickSet(){
 //		hoursIn = npHours.getValue();

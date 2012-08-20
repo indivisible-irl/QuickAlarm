@@ -125,8 +125,9 @@ public class AlarmHandler {
 			pIntent = PendingIntent.getActivity(context, alarm.id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			try{
 				am.cancel(pIntent);
+				Log.d("cancelAllAlarms", "Cancelled alarm: " + alarm.title);
 			} catch (Exception ex) {
-				Log.e("MyAlarms", "AlarmManager update was not canceled. " + ex.toString());
+				Log.d("cancelAllAlarms", "Alarm not cancelled. " + ex.toString());
 			}
 		}
 	}
