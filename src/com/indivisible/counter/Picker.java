@@ -1,6 +1,7 @@
 package com.indivisible.counter;
 
 //import java.util.Date;
+//import android.widget.Toast;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-//import android.widget.Toast;
 
 public class Picker extends Activity implements View.OnClickListener{
 

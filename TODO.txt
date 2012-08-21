@@ -1,0 +1,4 @@
+TODOs
+
+- Need a better activity and layout to set/edit alarms.
+	- Auto-fill for edit.
