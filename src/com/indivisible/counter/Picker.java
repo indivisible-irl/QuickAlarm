@@ -1,14 +1,14 @@
 package com.indivisible.counter;
 
-//import java.util.Date;
-//import android.widget.Toast;
+import java.util.Date;
+import android.widget.Toast;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlarmManager;
-//import android.app.PendingIntent;
-//import android.content.Intent;
-//import android.content.SharedPreferences;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +25,9 @@ public class Picker extends Activity implements View.OnClickListener{
 	EditText etTitle;
 	NumberPicker npHours, npMinutes, npSeconds;
 	
-	//int hoursIn, minutesIn, secondsIn, alarmID;
-	//Date now, then;
-	//long addMilliseconds;
+	int hoursIn, minutesIn, secondsIn, alarmID;
+	Date now, then;
+	long addMilliseconds;
 	AlarmHandler ah;
 	
 	//////////////////////////////////////////////////////////////////////
@@ -109,41 +109,44 @@ public class Picker extends Activity implements View.OnClickListener{
 		}
 	}
 	
-	private void clickSet(){
-		Alarm alarm = new Alarm(
-				etTitle.getText().toString(),
-				npHours.getValue(),
-				npMinutes.getValue(),
-				npSeconds.getValue()
-				);
-		ah.cancelAllAlarms();
-		ah.addAlarm(alarm);
-		ah.setAlarms();
-	}
 //	private void clickSet(){
-//		hoursIn = npHours.getValue();
-//		minutesIn = npMinutes.getValue();
-//		secondsIn = npSeconds.getValue();
-//		
-//		addMilliseconds = (hoursIn * 3600000) + (minutesIn * 60000) + (secondsIn * 1000);
-//		
-//		now = new Date();
-//		then = new Date(now.getTime() + addMilliseconds);
-//		
-//		setAlarm(12345);
+//		Alarm alarm = new Alarm(
+//				etTitle.getText().toString(),
+//				npHours.getValue(),
+//				npMinutes.getValue(),
+//				npSeconds.getValue()
+//				);
+//		ah.cancelAllAlarms();
+//		ah.addAlarm(alarm);
+//		ah.setAlarms();
 //	}
+	private void clickSet(){
+		hoursIn = npHours.getValue();
+		minutesIn = npMinutes.getValue();
+		secondsIn = npSeconds.getValue();
+		
+		addMilliseconds = (hoursIn * 3600000) + (minutesIn * 60000) + (secondsIn * 1000);
+		
+		now = new Date();
+		then = new Date(now.getTime() + addMilliseconds);
+		
+		Toast.makeText(this, "Alarm will go off in "+(addMilliseconds/1000), Toast.LENGTH_SHORT);
+		
+		
+		setAlarm(12345);
+	}
 
-//	private void setAlarm(int id) {
-//		// Auto-generated method stub
-//		Intent intent = new Intent(this, AlarmDisp.class);
-//		PendingIntent pendingIntent = PendingIntent.getActivity(this,
-//	            id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-//		
-//		AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-//	    am.set(AlarmManager.RTC_WAKEUP, then.getTime(), pendingIntent);
-//	    
-//	    saveAlarm();
-//	}
+	private void setAlarm(int id) {
+		// Auto-generated method stub
+		Intent intent = new Intent(this, AlarmDisp.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this,
+	            id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		
+		AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+	    am.set(AlarmManager.RTC_WAKEUP, then.getTime(), pendingIntent);
+	    
+	    //saveAlarm();
+	}
 //
 //	private void saveAlarm() {
 //		// Auto-generated method stub
